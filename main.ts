@@ -4,10 +4,8 @@ const udpServer = Deno.listenDatagram({
 	hostname: "0.0.0.0",
 });
 
-while(1) {
-	const resp = await udpServer.receive();
-	resp; //[Uint8Array, Addr]
-	const message = new TextDecoder().decode(resp[0]);
+for await (const [ data, _remoteAddr ] of udpServer) { // [Uint8Array, Addr]
+	const message = new TextDecoder().decode(data);
 	const decoded = JSON.parse(message);
 	console.log(decoded);
 }
