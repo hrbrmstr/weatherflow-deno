@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+.vscode/settings.json
+.vim
+**/cov/
+/crypto/_wasm/target
+/encoding/varint/_wasm/target
+deno.lock
+weatherflow-deno
