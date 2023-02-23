@@ -7,3 +7,4 @@
 /encoding/varint/_wasm/target
 deno.lock
 weatherflow-deno
+gui
