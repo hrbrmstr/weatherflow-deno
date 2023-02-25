@@ -1,3 +1,4 @@
+// @ts-ignore unstable
 const udpServer = Deno.listenDatagram({
 	port: 50222,
 	transport: "udp",
