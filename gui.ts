@@ -1,5 +1,5 @@
 import { crayon } from "https://deno.land/x/crayon@3.3.2/mod.ts";
-import { Canvas, Tui  } from "https://deno.land/x/tui@1.3.4/mod.ts";
+import { Canvas, Tui } from "https://deno.land/x/tui@1.3.4/mod.ts";
 import { LabelComponent } from "https://deno.land/x/tui@1.3.4/src/components/mod.ts";
 import { handleKeyboardControls, handleKeypresses } from "https://deno.land/x/tui@1.3.4/src/keyboard.ts";
 // @ts-ignore d3
@@ -10,6 +10,11 @@ import humanizeDuration from "https://esm.sh/humanize-duration@3.28.0";
 
 // @ts-ignore d3
 const fmt = timeFormat("%Y-%m-%d %H:%M:%S");
+
+function getCardinalDirection(angle: number): string {
+	const directions = ['↑ N', '↗ NE', '→ E', '↘ SE', '↓ S', '↙ SW', '← W', '↖ NW'];
+	return directions[Math.round(angle / 45) % 8];
+}
 
 const tuiStyle = crayon.bgBlack.white;
 
@@ -108,15 +113,16 @@ tui.on("update", async () => {
 	// lastMsg.value = decoded.type;
 
 	if (decoded.type == "obs_st") {
+		const tempF = (decoded.obs[0][7] * 1.8) + 32;
 		// @ts-ignore d3
-		temp.value = "  Temp: " + format("5.1f")(decoded.obs[0][7]) + "°C  Humid: " + format("4.1f")(decoded.obs[0][8]) + "%  Lux: " + format(",")(decoded.obs[0][9]);
+		temp.value = "  Temp: " + format("5.1f")(tempF) + "°F  Humid: " + format("4.1f")(decoded.obs[0][8]) + "%  Lux: " + format(",")(decoded.obs[0][9]);
 		const ts = new Date(decoded.obs[0][0] * 1000);
 		last.value = "  Last: " + fmt(ts);
 	}
 
 	if (decoded.type == "rapid_wind") {
 		// @ts-ignore d3
-		wind.value = "  Wind: " + format("4.2f")(decoded.ob[1]) + " m/s  " + format("3")(decoded.ob[2]) + "°";
+		wind.value = "  Wind: " + format("5.1f")(decoded.ob[1] / 0.44704) + " mph  " + format("3")(decoded.ob[2]) + "° " + getCardinalDirection(decoded.ob[2]);
 		const ts = new Date(decoded.ob[0] * 1000);
 		last.value = "  Last: " + fmt(ts);
 	}
