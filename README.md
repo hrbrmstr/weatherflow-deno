@@ -1,11 +1,13 @@
 # weatherflow-deno
 
-Weatherflow Tempest UDP listener in Deno.
+Weatherflow Tempest UDP listener logger / TUI in Deno.
 
 ## Tasks
 
 - `dev`: Run the app
+- `gui`: Run the TUI
 - `compile`: compile to binary
+- `compile-gui`: compile TUI to binary
 
 ## Sample Output
 
@@ -46,3 +48,5 @@ Weatherflow Tempest UDP listener in Deno.
   firmware_revision: 165
 }
 ```
+
+![TUI](gui.png)
